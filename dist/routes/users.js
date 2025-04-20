@@ -47,7 +47,7 @@ router.put('/:id', async (req, res) => {
         }
         if ('leg' in userData) {
             updates.push('leg = ?');
-            values.push(userData.leg === '' ? null : userData.leg);
+            values.push(userData.leg === null || userData.leg === undefined ? null : userData.leg);
         }
         if ('mobile_no' in userData) {
             updates.push('mobile_no = ?');
@@ -75,7 +75,7 @@ router.put('/:id', async (req, res) => {
         }
         if ('sp_value' in userData) {
             updates.push('sp_value = ?');
-            values.push(userData.sp_value === '' ? 0 : Number(userData.sp_value));
+            values.push(userData.sp_value === null || userData.sp_value === undefined ? 0 : Number(userData.sp_value));
         }
         if ('is_green' in userData) {
             updates.push('is_green = ?');
@@ -83,14 +83,14 @@ router.put('/:id', async (req, res) => {
         }
         // Add the WHERE clause value
         values.push(userId);
-        console.log('5. Update Query:', updateQuery);
-        console.log('6. Update Values:', values);
-        // Construct and execute the update query
+        // Construct the update query
         const updateQuery = `
             UPDATE users 
             SET ${updates.join(', ')}
             WHERE id = ?
         `;
+        console.log('5. Update Query:', updateQuery);
+        console.log('6. Update Values:', values);
         try {
             const result = await db.run(updateQuery, values);
             console.log('7. Update Result:', result);
