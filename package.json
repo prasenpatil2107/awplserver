@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    "prepare": "npm install",
     "build": "npx tsc",
     "build:ci": "CI=false npm run build",
     "start": "node dist/server.js",
