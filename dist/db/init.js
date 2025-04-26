@@ -65,7 +65,7 @@ async function initializeDatabase() {
     sqlite3_1.default.verbose();
     try {
         const db = await (0, sqlite_1.open)({
-            filename: path_1.default.join(__dirname, '../database.sqlite'),
+            filename: path_1.default.join(__dirname, 'database.sqlite'),
             driver: sqlite3_1.default.Database
         });
         console.log('Database connected successfully');
@@ -168,7 +168,7 @@ async function initializeDatabase() {
 exports.initializeDatabase = initializeDatabase;
 async function getDb() {
     return await (0, sqlite_1.open)({
-        filename: path_1.default.join(__dirname, '../database.sqlite'),
+        filename: path_1.default.join(__dirname, 'database.sqlite'),
         driver: sqlite3_1.default.Database
     });
 }

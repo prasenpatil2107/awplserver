@@ -68,7 +68,7 @@ export async function initializeDatabase() {
 
     try {
         const db = await open({
-            filename: path.join(__dirname, '../database.sqlite'),
+            filename: path.join(__dirname, 'database.sqlite'),
             driver: sqlite3.Database
         });
 
@@ -183,7 +183,7 @@ export async function initializeDatabase() {
 
 export async function getDb(): Promise<Database> {
     return await open({
-        filename: path.join(__dirname, '../database.sqlite'),
+        filename: path.join(__dirname, 'database.sqlite'),
         driver: sqlite3.Database
     });
 } 
