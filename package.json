@@ -5,6 +5,7 @@
   "scripts": {
     "prepare": "npm install",
     "build": "npx tsc",
+    "build:ci": "CI=false npm run build",
     "start": "node dist/server.js",
     "dev": "ts-node src/server.ts"
   },

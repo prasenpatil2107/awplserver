@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN npm run build:ci
 
 # Expose the port
 EXPOSE 3000
