@@ -5,7 +5,10 @@ import { getDb, initializeDatabase } from './db/init';
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // or your frontend URL
+  credentials: true
+}));
 app.use(express.json());
 
 // Add error handling middleware
