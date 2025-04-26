@@ -10,9 +10,14 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+// Add error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
+});
 // Import routes
 const users_1 = __importDefault(require("./routes/users"));
-// Use routes
+// Use routes with error handling
 app.use('/users', users_1.default);
 // Basic health check endpoint
 app.get('/', (req, res) => {
@@ -21,8 +26,21 @@ app.get('/', (req, res) => {
 // Initialize database and start server
 async function startServer() {
     try {
+        console.log('Initializing database...');
+        await (0, init_1.initializeDatabase)();
+        console.log('Database initialized successfully');
+        console.log('Connecting to database...');
         const db = await (0, init_1.getDb)();
-        console.log('Database connected successfully');
+        console.log('Database connectedserver successfully');
+        // Test database connection
+        try {
+            await db.get('SELECT 1');
+            console.log('Database test query successful');
+        }
+        catch (dbError) {
+            console.error('Database test query failed:', dbError);
+            throw dbError;
+        }
         app.listen(port, () => {
             console.log(`Server is running on port ${port}`);
         });

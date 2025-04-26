@@ -1,6 +1,13 @@
 import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
 import path from 'path';
+import fs from 'fs';
+
+// Ensure database directory exists
+const dbDir = path.join(__dirname);
+if (!fs.existsSync(dbDir)) {
+    fs.mkdirSync(dbDir, { recursive: true });
+}
 
 // Modify the migrateDatabase function to include all columns
 async function migrateDatabase(db: Database) {
@@ -72,7 +79,7 @@ export async function initializeDatabase() {
             driver: sqlite3.Database
         });
 
-        console.log('Database connected successfully');
+        console.log('Database connectedinit successfully');
 
         // Remove the duplicate users table creation and just check if it exists
         const userTableExists = await db.get(

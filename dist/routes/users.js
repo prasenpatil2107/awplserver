@@ -205,31 +205,35 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Failed to create user' });
     }
 });
-// Also update the GET route to ensure these fields are included in the response
-router.get('/', async (_req, res) => {
+// GET all users
+router.get('/', async (req, res) => {
     try {
+        console.log('Fetching all users...');
         const db = await (0, init_1.getDb)();
-        const users = await db.all(`
-            SELECT 
-                id, 
-                name, 
-                leg, 
-                added_under_id, 
-                mobile_no, 
-                address, 
-                work, 
-                remarks,
-                userid,
-                password,
-                sp_value,
-                is_green
-            FROM users
-        `);
+        const users = await db.all('SELECT * FROM users');
+        console.log(`Found ${users.length} users`);
         res.json(users);
     }
     catch (error) {
-        console.error('Failed to fetch users:', error);
-        res.status(500).json({ error: 'Failed to fetch users' });
+        console.error('Error fetching users:', error);
+        res.status(500).json({ error: 'Failed to fetch users', details: error.message });
+    }
+});
+// GET user by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const userId = parseInt(req.params.id);
+        console.log(`Fetching user with ID: ${userId}`);
+        const db = await (0, init_1.getDb)();
+        const user = await db.get('SELECT * FROM users WHERE id = ?', userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json(user);
+    }
+    catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ error: 'Failed to fetch user', details: error.message });
     }
 });
 exports.default = router;

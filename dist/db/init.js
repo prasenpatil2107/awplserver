@@ -7,6 +7,12 @@ exports.getDb = exports.initializeDatabase = void 0;
 const sqlite3_1 = __importDefault(require("sqlite3"));
 const sqlite_1 = require("sqlite");
 const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
+// Ensure database directory exists
+const dbDir = path_1.default.join(__dirname);
+if (!fs_1.default.existsSync(dbDir)) {
+    fs_1.default.mkdirSync(dbDir, { recursive: true });
+}
 // Modify the migrateDatabase function to include all columns
 async function migrateDatabase(db) {
     try {
@@ -68,7 +74,7 @@ async function initializeDatabase() {
             filename: path_1.default.join(__dirname, 'database.sqlite'),
             driver: sqlite3_1.default.Database
         });
-        console.log('Database connected successfully');
+        console.log('Database connectedinit successfully');
         // Remove the duplicate users table creation and just check if it exists
         const userTableExists = await db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='users'");
         if (!userTableExists) {
